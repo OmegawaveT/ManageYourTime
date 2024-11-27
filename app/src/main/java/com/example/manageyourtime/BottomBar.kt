@@ -31,7 +31,7 @@ fun bottomBar(selected: Int, onSelectedChanged: (Int) -> Unit) {//lambda表达�
         )
         tabItem(
             iconId = R.drawable.baseline_checklist_24,
-            title = "安排",
+            title = "列表",
             tint = if (selected == 1) Color.Blue else Color.Black,
             Modifier.weight(1f).clickable{
                 onSelectedChanged(1)

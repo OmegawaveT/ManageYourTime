@@ -10,6 +10,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.manageyourtime.taskDetail
 
 
 @Entity(tableName = "TaskDataTable")
@@ -58,6 +59,13 @@ interface TaskDataDao {
         starttime: Long,
         endtime: Long,
         isdeleted: Boolean
+    )
+
+    @Query("UPDATE TaskDataTable SET " +
+            "isdeleted = :isdeleted WHERE id = :id")
+    suspend fun deleteTaskDataById(
+        id: Int,
+        isdeleted: Boolean = true
     )
 }
 
@@ -108,5 +116,9 @@ class TaskDataRepository(private val taskdataDao: TaskDataDao) {
         isdeleted: Boolean = false
     ){
         taskdataDao.updateTaskDataById(id, name, note, lastUpdated, iscomplete, starttime, endtime, isdeleted)
+    }
+
+    suspend fun deleteTask(id: Int){
+        taskdataDao.deleteTaskDataById(id)
     }
 }

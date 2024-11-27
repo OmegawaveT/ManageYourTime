@@ -96,7 +96,8 @@ fun taskDetail(taskdetail: TaskShowDetail,  viewmodel: MNTViewModel, onClickCard
                     trailingIcon = {
                         Icon(Icons.Default.Edit, contentDescription = "Select date")
                     },
-                    modifier = Modifier.pointerInput(taskdetail.date) {
+                    modifier = Modifier.fillMaxWidth()
+                    .pointerInput(taskdetail.date) {
                         awaitEachGesture {
                             // Modifier.clickable doesn't work for text fields, so we use Modifier.pointerInput
                             // in the Initial pass to observe events before the text field consumes them

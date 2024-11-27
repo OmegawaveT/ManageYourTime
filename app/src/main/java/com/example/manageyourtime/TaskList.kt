@@ -26,10 +26,12 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.ui.text.font.FontWeight
 import com.example.manageyourtime.data.ScheduledTask
 
 @Composable
@@ -40,17 +42,19 @@ fun taskList(viewmodel: MNTViewModel, onClickCard: (Boolean) -> Unit) {
         scheduled.none{ scheduledTask -> scheduledTask.task.id == task.id }
     }
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val formatterdatetime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ){
         item{
-            Row {
-                Text("已安排的任务")
-                HorizontalDivider(color = Color.Gray, thickness = 1.dp,
-                    modifier = Modifier
-                        .width(100.dp) // 设置分割线的宽度
-                        .padding(vertical = 8.dp) // 设置上下的 padding)  // 添加分隔线
-                )
+            Row (modifier = Modifier.padding(vertical = 4.dp)) {
+                Box(contentAlignment = Alignment.CenterStart,
+                    modifier = Modifier.fillMaxWidth()
+                        .background(Color(0xFFDDDDDD))
+                     ){
+                    Text("已安排的任务", fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(horizontal = 12.dp))
+                }
             }
         }
         items(scheduled){ task->
@@ -61,7 +65,7 @@ fun taskList(viewmodel: MNTViewModel, onClickCard: (Boolean) -> Unit) {
                     .fillMaxWidth()
                     .padding(horizontal = 4.dp, vertical = 4.dp)  // 添加左右 2dp 的 padding
                     .height(100.dp)  // 固定高度
-                    .border(BorderStroke(3.dp, Color.Red), shape = RoundedCornerShape(8.dp))  // 设置边框颜色为红色，宽度为2dp
+                    .border(BorderStroke(3.dp, Color(0xFFFF99CC)), shape = RoundedCornerShape(8.dp))  // 设置边框颜色为红色，宽度为2dp
                     .clickable{
                         viewmodel.resetTimeData(task)
                         onClickCard(true)
@@ -70,32 +74,50 @@ fun taskList(viewmodel: MNTViewModel, onClickCard: (Boolean) -> Unit) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 6.dp, vertical = 4.dp)  // 添加左右 2dp 的 padding
+                        .padding(horizontal = 6.dp, vertical = 4.dp
+                        ) // 添加左右 2dp 的 padding
                 ){
                     Row{
                         Text(task.task.name, fontSize = 20.sp, modifier = Modifier.weight(1f))
                         Text(Instant.ofEpochMilli(task.task.created).atZone(ZoneId.systemDefault()).toLocalDateTime().format(formatter), Modifier.align(Alignment.CenterVertically))
                     }
-                    Text(task.task.note)
-                    /*
-                    Row {
-                        val ddl: String
-                        if(task.task.deadline == (-1).toLong()) ddl="暂无截止日期"
-                        else ddl = Instant.ofEpochMilli(task.task.created).atZone(ZoneId.systemDefault()).toLocalDateTime().format(formatter)
-                        Text(ddl)
+                    Text(task.task.note, modifier = Modifier.weight(1f))
+                    Row(verticalAlignment = Alignment.Bottom) {
+                        Text(
+                            "开始时间：${
+                                Instant.ofEpochMilli(task.start)
+                                    .atZone(ZoneId.systemDefault()).toLocalDateTime()
+                                    .format(formatterdatetime)
+                            }",
+                            fontSize = 12.sp,
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .weight(1f)
+                        )
+                        Text(
+                            "结束时间：${
+                                Instant.ofEpochMilli(task.end)
+                                    .atZone(ZoneId.systemDefault()).toLocalDateTime()
+                                    .format(formatterdatetime)
+                            }",
+                            fontSize = 12.sp,
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .weight(1f)
+                        )
                     }
-                    */
                 }
             }
         }
         item{
-            Row {
-                Text("未安排的任务")
-                HorizontalDivider(color = Color.Gray, thickness = 1.dp,
-                    modifier = Modifier
-                    .width(100.dp) // 设置分割线的宽度
-                    .padding(vertical = 8.dp) // 设置上下的 padding)  // 添加分隔线
-                )
+            Row (modifier = Modifier.padding(vertical = 4.dp)) {
+                Box(contentAlignment = Alignment.CenterStart,
+                    modifier = Modifier.fillMaxWidth()
+                        .background(Color(0xFFDDDDDD))
+                ){
+                    Text("未安排的任务", fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(horizontal = 12.dp))
+                }
             }
         }
         items(unscheduled){ task->
@@ -106,7 +128,7 @@ fun taskList(viewmodel: MNTViewModel, onClickCard: (Boolean) -> Unit) {
                     .fillMaxWidth()
                     .padding(horizontal = 4.dp, vertical = 4.dp)  // 添加左右 2dp 的 padding
                     .height(100.dp)  // 固定高度
-                    .border(BorderStroke(3.dp, Color.Red), shape = RoundedCornerShape(8.dp))  // 设置边框颜色为红色，宽度为2dp
+                    .border(BorderStroke(3.dp, Color(0xFFFF77FF)), shape = RoundedCornerShape(8.dp))  // 设置边框颜色为红色，宽度为2dp
                     .clickable{
                         viewmodel.resetTimeData(ScheduledTask(task))//需要用已有的task新建一个Scheduled
                         onClickCard(true)

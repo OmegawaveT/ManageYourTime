@@ -107,7 +107,7 @@ private fun TaskCard(parentHeight: Dp, index: Int, start: Float, end: Float, tas
             .fillMaxWidth() // 每列占满宽度
             .offset(y = parentHeight * (start))
             .height(parentHeight * (end-start)) // 高度为父布局的 (end - start) 部分
-            .border(BorderStroke(2.dp, Color.Red), shape = RoundedCornerShape(8.dp))  // 设置边框颜色为红色，宽度为2dp
+            .border(BorderStroke(2.dp, Color(0xFFBB9988)), shape = RoundedCornerShape(8.dp))  // 设置边框颜色为红色，宽度为2dp
             .padding(2.dp)
             .clickable{
                 onClickCard(true)

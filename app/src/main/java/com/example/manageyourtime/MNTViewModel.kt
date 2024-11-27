@@ -319,6 +319,13 @@ class MNTViewModel(application: Application) : AndroidViewModel(application)  {
             isdeleted = DialogData.isdeleted
         )
     }
+
+    fun deleteTask(id: Int){
+        completedtask.removeIf { task -> (task.id == id) }
+        viewModelScope.launch {
+            taskRepository.deleteTask(id)
+        }
+    }
 }
 
 class MNTViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
