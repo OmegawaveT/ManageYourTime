@@ -1,6 +1,7 @@
 package com.example.manageyourtime
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +25,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import java.time.Instant
 import java.time.ZoneId
@@ -40,6 +42,17 @@ fun completeTaskList(viewmodel: MNTViewModel) {
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
+            item{
+                Row (modifier = Modifier.padding(vertical = 4.dp)) {
+                    Box(contentAlignment = Alignment.CenterStart,
+                        modifier = Modifier.fillMaxWidth()
+                            .background(Color(0xFFDDDDDD))
+                    ){
+                        Text("已完成的任务", fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(horizontal = 12.dp))
+                    }
+                }
+            }
             items(completedtasks) { task ->
                 Surface(
                     shape = RoundedCornerShape(8.dp),
